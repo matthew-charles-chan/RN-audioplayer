@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import episodes from '../data';
+// import episodes from '../data';
 import TrackPlayer, {
   usePlaybackState,
   useTrackPlayerProgress,
@@ -11,6 +11,19 @@ import EpisodesList from './EpisodesList';
 import Controlls from './Controlls';
 import EpisodeInfo from './EpisodeInfo';
 const { width, height } = Dimensions.get('window');
+
+import episodesJSON from '../episodes.json';
+
+// map through episodes JSON, return an object for each episode containing keys : id, title, artist, url, artwork
+const episodes = episodesJSON.items.map((episode) => {
+  return {
+    id: `${episode.id}`,
+    title: episode.title,
+    artist: episode.publisher,
+    url: episode.mp3,
+    artwork: episode.artwork,
+  };
+});
 
 export default function Main() {
   // create episodeIdx state, default to 0
