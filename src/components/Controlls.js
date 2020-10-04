@@ -1,22 +1,22 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
 
 export default function Controller({ skip, prev, playbackState, pause, play }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={prev}>
-        <MaterialIcons name="skip-previous" size={50} />
+        <SimpleLineIcons name="control-start" size={30} />
       </TouchableOpacity>
       <TouchableOpacity>
         {playbackState === 'playing' ? (
-          <MaterialIcons name="pause" size={50} onPress={pause} />
+          <SimpleLineIcons name="control-pause" size={40} onPress={pause} />
         ) : (
-          <MaterialIcons name="play-arrow" size={50} onPress={play} />
+          <SimpleLineIcons name="control-play" size={40} onPress={play} />
         )}
       </TouchableOpacity>
       <TouchableOpacity onPress={skip}>
-        <MaterialIcons name="skip-next" size={50} />
+        <SimpleLineIcons name="control-end" size={30} />
       </TouchableOpacity>
     </View>
   );
@@ -25,5 +25,9 @@ export default function Controller({ skip, prev, playbackState, pause, play }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignContent: 'space-around',
+    height: '10%',
+    width: '90%',
   },
 });

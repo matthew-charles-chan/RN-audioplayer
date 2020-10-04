@@ -5,13 +5,14 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 
 // import episodes from '../data';
 
 export default function EpisodeList({ playEpisode, episodes }) {
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
         data={episodes}
         keyExtractor={(item, index) => item.id}
@@ -29,11 +30,10 @@ export default function EpisodeList({ playEpisode, episodes }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 50,
+    height: '50%',
     width: '100%',
   },
   todoItem: {
