@@ -11,7 +11,7 @@ import EpisodesList from './src/components/EpisodesList';
 import Controlls from './src/components/Controlls';
 
 export default function App() {
-  const [episodeIdx, setEpisodeIdx] = useState('');
+  const [episodeIdx, setEpisodeIdx] = useState(0);
 
   const findIndexOfEpisode = (id, array) => {
     return array.findIndex((el) => {
@@ -90,8 +90,8 @@ export default function App() {
     <View style={styles.container}>
       <EpisodesList playEpisode={selectEpisode} episodes={episodes} />
       <View>
-        <Text style={styles.title}>{episodes[0].title}</Text>
-        <Text style={styles.artist}>{episodes[0].artist}</Text>
+        <Text style={styles.title}>{episodes[episodeIdx].title}</Text>
+        <Text style={styles.artist}>{episodes[episodeIdx].artist}</Text>
       </View>
       <Controlls
         skip={skipTrack}
@@ -107,11 +107,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingTop: 50,
-    paddingBottom: 50,
+    height: '100%',
+    maxHeight: 600,
   },
 });

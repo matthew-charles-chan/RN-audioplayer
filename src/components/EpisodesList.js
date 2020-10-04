@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '60%',
+    height: 50,
     width: '100%',
   },
   todoItem: {
