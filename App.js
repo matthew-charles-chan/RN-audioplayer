@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import episodes from './src/data';
 import TrackPlayer from 'react-native-track-player';
 
+import Controlls from './src/components/Controlls';
 
 export default function App() {
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
+      <Controlls />
       <StatusBar style="auto" />
     </View>
   );
