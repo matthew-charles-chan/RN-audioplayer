@@ -1,0 +1,12 @@
+{
+  "name": "RN-audio-player",
+  "displayName": "RN-audio-player",
+  "expo": {
+    "name": "RN-audio-player",
+    "slug": "RN-audio-player",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
