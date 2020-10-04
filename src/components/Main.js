@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import episodes from '../data';
 import TrackPlayer, {
-  getState,
   usePlaybackState,
   useTrackPlayerProgress,
 } from 'react-native-track-player';
 import * as Progress from 'react-native-progress';
-import { SimpleLineIcons } from '@expo/vector-icons';
 
 import EpisodesList from './EpisodesList';
 import Controlls from './Controlls';
@@ -15,9 +13,14 @@ import EpisodeInfo from './EpisodeInfo';
 const { width, height } = Dimensions.get('window');
 
 export default function Main() {
+  // create episodeIdx state, default to 0
   const [episodeIdx, setEpisodeIdx] = useState(0);
+
+  // call usePlaybackState hook to get current playback state
   const playbackState = usePlaybackState();
-  const { position, bufferedPosition, duration } = useTrackPlayerProgress();
+
+  // call useTrackPlayerProgress hook -> deconstruct progress and duration from return obj
+  const { position, duration } = useTrackPlayerProgress();
 
   // find index of element w/in arrray with element.id
   const findIndexOfEpisode = (id, array) => {
@@ -42,14 +45,12 @@ export default function Main() {
     TrackPlayer.setupPlayer().then(async () => {
       // The player is ready to be used
       console.log('Player ready');
-      console.log(episodes);
       // add the array of episodes
       await TrackPlayer.reset();
       await TrackPlayer.add([...episodes]);
       setEpisodeIdxToCurrrent();
-
-      TrackPlayer.play();
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const skipTrack = async () => {
@@ -81,7 +82,7 @@ export default function Main() {
     await TrackPlayer.play();
   };
 
-  const selectEpisode = async (id) => {
+  const selectAndPlayEpisode = async (id) => {
     await TrackPlayer.skip(id);
     TrackPlayer.play();
     setEpisodeIdxToCurrrent();
@@ -90,7 +91,7 @@ export default function Main() {
   let progress = position && duration ? position / duration : 0;
   return (
     <View style={styles.container}>
-      <EpisodesList playEpisode={selectEpisode} episodes={episodes} />
+      <EpisodesList playEpisode={selectAndPlayEpisode} episodes={episodes} />
       <EpisodeInfo
         title={episodes[episodeIdx].title}
         artist={episodes[episodeIdx].artist}

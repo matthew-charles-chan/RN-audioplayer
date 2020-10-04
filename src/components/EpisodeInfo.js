@@ -5,6 +5,7 @@ export default function EpisodeInfo({ title, artist, image }) {
   return (
     <View style={styles.container}>
       <Image source={{ uri: image }} style={styles.image} />
+      {/* This view is created to allow for text wrapping of title */}
       <View style={styles.textContainer}>
         <View style={{ flexDirection: 'row' }}>
           <Text style={{ fontSize: 20, flex: 1, flexWrap: 'wrap' }}>

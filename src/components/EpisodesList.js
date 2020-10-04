@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import { SimpleLineIcons } from '@expo/vector-icons';
 import { Ionicons } from 'react-native-vector-icons';
 
 // import episodes from '../data';
