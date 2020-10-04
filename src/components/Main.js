@@ -23,7 +23,7 @@ export default function Main() {
   const { position, duration } = useTrackPlayerProgress();
 
   // find index of element w/in arrray with element.id
-  const findIndexOfEpisode = (id, array) => {
+  const findIndexById = (id, array) => {
     return array.findIndex((el) => {
       return el.id === id;
     });
@@ -33,7 +33,7 @@ export default function Main() {
   const setEpisodeIdxToCurrrent = () => {
     TrackPlayer.getCurrentTrack()
       .then((id) => {
-        return findIndexOfEpisode(id, episodes);
+        return findIndexById(id, episodes);
       })
       .then((idx) => {
         setEpisodeIdx(idx);
