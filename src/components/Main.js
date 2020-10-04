@@ -4,21 +4,29 @@ import episodes from '../data';
 import TrackPlayer, {
   getState,
   usePlaybackState,
+  useTrackPlayerProgress,
 } from 'react-native-track-player';
+import * as Progress from 'react-native-progress';
+import { SimpleLineIcons } from '@expo/vector-icons';
 
 import EpisodesList from './EpisodesList';
 import Controlls from './Controlls';
+import EpisodeInfo from './EpisodeInfo';
 const { width, height } = Dimensions.get('window');
 
 export default function Main() {
   const [episodeIdx, setEpisodeIdx] = useState(0);
+  const playbackState = usePlaybackState();
+  const { position, bufferedPosition, duration } = useTrackPlayerProgress();
 
+  // find index of element w/in arrray with element.id
   const findIndexOfEpisode = (id, array) => {
     return array.findIndex((el) => {
       return el.id === id;
     });
   };
 
+  // update eposodeIdx state to current track
   const setEpisodeIdxToCurrrent = () => {
     TrackPlayer.getCurrentTrack()
       .then((id) => {
@@ -29,7 +37,6 @@ export default function Main() {
       });
   };
 
-  const playbackState = usePlaybackState();
   // on first render, initiallize TrackPlayer and add episodes to player
   useEffect(() => {
     TrackPlayer.setupPlayer().then(async () => {
@@ -42,14 +49,8 @@ export default function Main() {
       setEpisodeIdxToCurrrent();
 
       TrackPlayer.play();
-
-      getState().then((res) => console.log(res));
-
-      //add listener on track change
     });
   }, []);
-
-  // setEpisodeIndex(findIndex)
 
   const skipTrack = async () => {
     // If current episode is not last in episodes arr, skip to next epidode,
@@ -81,18 +82,22 @@ export default function Main() {
   };
 
   const selectEpisode = async (id) => {
-    // console.log(id);
     await TrackPlayer.skip(id);
+    TrackPlayer.play();
     setEpisodeIdxToCurrrent();
   };
 
+  let progress = position && duration ? position / duration : 0;
   return (
     <View style={styles.container}>
       <EpisodesList playEpisode={selectEpisode} episodes={episodes} />
-      <View>
-        <Text>{episodes[episodeIdx].title}</Text>
-        <Text>{episodes[episodeIdx].artist}</Text>
-      </View>
+      <EpisodeInfo
+        title={episodes[episodeIdx].title}
+        artist={episodes[episodeIdx].artist}
+        image={episodes[episodeIdx].artwork}
+      />
+
+      <Progress.Bar color={'#F76C6C'} progress={progress} width={250} />
       <Controlls
         skip={skipTrack}
         prev={prevTack}
@@ -112,18 +117,5 @@ const styles = StyleSheet.create({
     height: height,
     paddingTop: 40,
     paddingBottom: 30,
-  },
-  title: {
-    fontSize: 28,
-    textAlign: 'center',
-    fontWeight: '600',
-    // textTransform: 'capitalize',
-    color: '#ffffff',
-  },
-  artist: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#ffffff',
-    // textTransform: 'capitalize',
   },
 });
