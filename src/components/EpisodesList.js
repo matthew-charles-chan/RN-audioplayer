@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { Ionicons } from 'react-native-vector-icons';
 
 // import episodes from '../data';
 
@@ -17,11 +19,14 @@ export default function EpisodeList({ playEpisode, episodes }) {
         data={episodes}
         keyExtractor={(item, index) => item.id}
         renderItem={(itemData) => (
-          <TouchableOpacity onPress={() => playEpisode(itemData.item.id)}>
-            <View style={styles.todoItem}>
-              <Text>{itemData.item.title}</Text>
+          <>
+            <View style={styles.episode}>
+              <Text style={styles.title}>{itemData.item.title}</Text>
+              <TouchableOpacity onPress={() => playEpisode(itemData.item.id)}>
+                <Ionicons style={styles.icon} name="md-play" />
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
+          </>
         )}
       />
     </View>
@@ -34,13 +39,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: '50%',
-    width: '100%',
   },
-  todoItem: {
-    backgroundColor: '#ccc',
+  icon: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  title: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  episode: {
+    backgroundColor: '#F76C6C',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     borderColor: 'black',
-    borderWidth: 1,
+    borderRadius: 30,
     marginVertical: 2,
+    width: 300,
     padding: 10,
   },
 });
