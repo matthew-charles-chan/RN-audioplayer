@@ -13,7 +13,7 @@ import Controlls from './src/components/Controlls';
 export default function App() {
   const [episodeIdx, setEpisodeIdx] = useState('');
 
-  const findIndex = (id, array) => {
+  const findIndexOfEpisode = (id, array) => {
     return array.findIndex((el) => {
       return el.id === id;
     });
@@ -22,7 +22,7 @@ export default function App() {
   const setEpisodeIdxToCurrrent = () => {
     TrackPlayer.getCurrentTrack()
       .then((id) => {
-        return findIndex(id, episodes);
+        return findIndexOfEpisode(id, episodes);
       })
       .then((idx) => {
         setEpisodeIdx(idx);
@@ -39,9 +39,9 @@ export default function App() {
       // add the array of episodes
       await TrackPlayer.reset();
       await TrackPlayer.add([...episodes]);
+      setEpisodeIdxToCurrrent();
 
       TrackPlayer.play();
-      setEpisodeIdxToCurrrent();
 
       getState().then((res) => console.log(res));
 
@@ -51,20 +51,25 @@ export default function App() {
 
   // setEpisodeIndex(findIndex)
 
-  const skipTrack = () => {
-    console.log(episodeIdx);
-    TrackPlayer.skipToNext();
+  const skipTrack = async () => {
+    // If current episode is not last in episodes arr, skip to next epidode,
+    // else, skip to first episode in episodes array
+    episodeIdx !== episodes.length - 1
+      ? await TrackPlayer.skipToNext()
+      : await TrackPlayer.skip(episodes[0].id);
     setEpisodeIdxToCurrrent();
-
-    // console.log(findIndex());
-    // await TrackPlayer.play();
+    // TrackPlayer.play();
   };
 
   const prevTack = async () => {
-    console.log(episodeIdx);
-    await TrackPlayer.skipToPrevious();
+    // if episode is not first epsiode (episodes[0]), skip to previous,
+    // else, skip to last epsiode in array (epsiodes[episodes.length - 1])
+    episodeIdx !== 0
+      ? await TrackPlayer.skipToPrevious()
+      : await TrackPlayer.skip(episodes[episodes.length - 1].id);
+    // await TrackPlayer.skipToPrevious();
     setEpisodeIdxToCurrrent();
-    // await TrackPlayer.play();
+    // TrackPlayer.play();
   };
 
   const pause = async () => {
@@ -78,6 +83,7 @@ export default function App() {
   const selectEpisode = async (id) => {
     // console.log(id);
     await TrackPlayer.skip(id);
+    setEpisodeIdxToCurrrent();
   };
 
   return (
