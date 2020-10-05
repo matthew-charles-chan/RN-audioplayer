@@ -11,6 +11,28 @@ A react native audio player that allows:
   - Go to the previous track
 - displays progress of current playing episode.
 
+To run the app:
+
+1. clone into the repo
+
+- \$ git clone git@github.com:matthew-charles-chan/RN-audioplayer.git
+
+2. cd into the repo:
+
+- \$ cd RN-audioplayer
+
+3. install dependencies:
+
+- \$ npm i
+
+4. pod installation
+
+- \$ npx pod-install
+
+5. run ios simulation:
+
+- \$ yarn ios
+
 Dependencies:
 
 - react-native-track-player
